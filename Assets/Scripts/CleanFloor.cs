@@ -17,11 +17,14 @@ public class CleanFloor : MonoBehaviour
     int texX;
     int texY;
 
+    private MeshRenderer meshRenderer;
 
     // Start is called before the first frame update
     void Start()
     {
-        mainTex = (Texture2D)GetComponent<Renderer>().material.mainTexture;
+        TryGetComponent(out meshRenderer);
+
+        mainTex = (Texture2D)meshRenderer.material.mainTexture;
         Color[] pixels = mainTex.GetPixels();
         okpix = mainTex.width * mainTex.height;
 
@@ -83,26 +86,34 @@ public class CleanFloor : MonoBehaviour
         Debug.Log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
     }
 
+    public void ChangeTexture(Vector3 textureCoord)
+    {
+        Draw(textureCoord * mainTex.width);
+        drawTexture.SetPixels(buffer);
+        drawTexture.Apply();
+        meshRenderer.material.mainTexture = drawTexture;
+    }
+
 
     // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetMouseButton(0))
-        {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit))
-            {
-                if(hit.collider.tag == "DirtFloor")
-                {
-                    Draw(hit.textureCoord * mainTex.width);
-                    drawTexture.SetPixels(buffer);
-                    drawTexture.Apply();
-                    hit.collider.GetComponent<Renderer>().material.mainTexture = drawTexture;
-                }
-            }
+    //void Update()
+    //{
+    //    if (Input.GetMouseButton(0))
+    //    {
+    //        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+    //        RaycastHit hit;
+    //        if (Physics.Raycast(ray, out hit))
+    //        {
+    //            if(hit.collider.tag == "DirtFloor")
+    //            {
+    //                Draw(hit.textureCoord * mainTex.width);
+    //                drawTexture.SetPixels(buffer);
+    //                drawTexture.Apply();
+    //                hit.collider.GetComponent<Renderer>().material.mainTexture = drawTexture;
+    //            }
+    //        }
 
 
-        }
-    }
+    //    }
+    //}
 }

@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// u‚«‘S”Ê‚ÌŠÇ—
+/// </summary>
 public class InVisibleTest : MonoBehaviour
 {
     public float RayTime;
@@ -47,6 +50,10 @@ public class InVisibleTest : MonoBehaviour
     }
 
     int a;
+
+    /// <summary>
+    /// NPC‚Ìu‚«ó‘Ô‚ÌŠÇ—
+    /// </summary>
     void CheckNPC()
     {
         foreach(GameObject obj in classD)
