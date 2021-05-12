@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class CleanFloor : MonoBehaviour
 {
-    public float AlphaPercentage; //一度の判定でどれくらい透明化するか
-    public float ClearParcentage; //エリアの何割を消せばクリア判定に移るか
+    [SerializeField, Header("規定値に従う")] bool Auto = true;//下記二つをGameManagerと同期する 
+    [SerializeField,Range(0f,1.0f)] float AlphaPercentage; //一度の判定でどれくらい透明化するか
+    //[SerializeField] float ClearParcentage; //エリアの何割を消せばクリア判定に移るか
+
+    [SerializeField] int BrushSize;//消しゴムのサイズ
 
     int Check; //指定アルファ値を下回った合計ピクセル数
     int okpix; //メインテクスチャの全ピクセル数
@@ -17,20 +20,31 @@ public class CleanFloor : MonoBehaviour
     int texX;
     int texY;
 
+    private bool FirstCheck;//初回引き算のスキップ用
+    private int ErasePx = 0;
+
     private MeshRenderer meshRenderer;
+    private Cleaner cleaner;
 
     // Start is called before the first frame update
     void Start()
     {
+        GameObject.FindGameObjectWithTag("GameController").TryGetComponent(out cleaner);
         TryGetComponent(out meshRenderer);
 
         mainTex = (Texture2D)meshRenderer.material.mainTexture;
         Color[] pixels = mainTex.GetPixels();
         okpix = mainTex.width * mainTex.height;
-
+        cleaner.AllPx += okpix;
 
         buffer = new Color[pixels.Length];
         pixels.CopyTo(buffer, 0);
+
+        if (Auto)
+        {
+            AlphaPercentage = cleaner._AlphaPercentage;
+            BrushSize = cleaner._BrushSize;
+        }
 
         //for(int x = 0; x < mainTexture.width; x++)
         //{
@@ -52,10 +66,12 @@ public class CleanFloor : MonoBehaviour
     {
         Color original;
 
+        
         Check = 0;
         //buffer.SetValue(ChangeColor, (int)p.x + 256 * (int)p.y);
         texX = 0;
         texY = 0;
+
         for (int x = 0; x < mainTex.width; x++)
         {
             texX++;
@@ -67,24 +83,29 @@ public class CleanFloor : MonoBehaviour
                 {
                     Check++;
                 }
-                if ((p - new Vector2(x, y)).magnitude < 20)
+                if ((p - new Vector2(x, y)).magnitude < BrushSize)
                 {
                     original.a -= AlphaPercentage;
                     buffer.SetValue(original, x + mainTex.width * y);
                 }
             }
         }
-        Debug.Log("X : Y[" + texX + " : " + texY / texX + "]");
-        if (Check > okpix * ClearParcentage)
+        if (ErasePx < Check)
         {
-            ClearCheck();
+            cleaner.CheckCount(Check - ErasePx);
         }
+        ErasePx = Check;
+        //Debug.Log("X : Y[" + texX + " : " + texY / texX + "]");
+        //if (Check > okpix * ClearParcentage)
+        //{
+        //    ClearCheck();
+        //}
     }
 
-    void ClearCheck()
-    {
-        Debug.Log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-    }
+    //void ClearCheck()
+    //{
+    //    Debug.Log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+    //}
 
     public void ChangeTexture(Vector3 textureCoord)
     {

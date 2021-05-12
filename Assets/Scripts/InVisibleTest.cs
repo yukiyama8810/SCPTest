@@ -25,7 +25,7 @@ public class InVisibleTest : MonoBehaviour
             var target = Playertf.position - transform.position;
             Ray ray = new Ray(transform.position, target);
             RaycastHit hit;
-            //Debug.DrawRay(ray.origin, ray.direction * 10, Color.red, RayTime, true);
+            Debug.DrawRay(ray.origin, ray.direction * 10, Color.red, RayTime, true);
             if (Physics.Raycast(ray, out hit,Vector3.Distance(Playertf.position,transform.position)))
             {
                 
