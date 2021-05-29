@@ -10,9 +10,15 @@ public class Cleaner : MonoBehaviour
     [HideInInspector] public int AllPx;//ステージ上全てのDirtオブジェクトのピクセル合計数
 
     [SerializeField,Header("クリア割合"), Range(0f, 1.0f)] float ClearPercentage;
-    [Header("一度にどれだけ透明にするか"),Range(0f,1.0f)] public float _AlphaPercentage;
+    [Header("一度にどれだけ透明にするか"),Range(0f,1.0f)] private float _alphaPercentage;
     [Header("消しゴムサイズ(初期値15)")]public int _BrushSize;
-    //ToDo 上記二つは読み取り専用にしたい
+    // TODO 上記二つは読み取り専用にしたい
+
+
+    public float _AlphaPercentage
+    {
+        get { return _alphaPercentage; }
+    }
 
     void Start()
     {

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class NPCManager : MonoBehaviour
 {
-    public float BlinkSpeed;
-    public float BlinkRecast;
+    [SerializeField,Header("瞬きゲージの減少速度")] float BlinkSpeed;
+    [SerializeField,Header("瞬きゲージリセットに要する時間")] float BlinkRecast;
     [System.NonSerialized]public bool Inshadow = false;
 
     float BlinkGage = 100;
