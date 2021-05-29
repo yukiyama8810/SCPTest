@@ -8,7 +8,7 @@ public class NPCManager : MonoBehaviour
     [SerializeField,Header("瞬きゲージリセットに要する時間")] float BlinkRecast;
     [System.NonSerialized]public bool Inshadow = false;
 
-    float BlinkGage = 100;
+    [SerializeField,Range(0f,100f)] float BlinkGage = 100;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,7 +21,7 @@ public class NPCManager : MonoBehaviour
         //Debug.LogError(gameObject.name + "のゲージ" + BlinkGage + "で暗闇状態が" + Inshadow);
         if(BlinkGage > 0)
         {
-            BlinkGage -= BlinkSpeed;
+            BlinkGage -= BlinkSpeed * Time.deltaTime;
         }
         else
         {

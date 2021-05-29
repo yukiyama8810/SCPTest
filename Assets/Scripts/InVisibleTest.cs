@@ -91,5 +91,10 @@ public class InVisibleTest : MonoBehaviour
             Debug.Log(obj.name + "Ç∆ÇÃãóó£" + distance);
         }
         Debug.Log("éEäQëŒè€ÇÕ" + MinDisObj.name);
+        MinDisObj.GetComponent<Animator>().SetBool("Death", true);
+        MinDisObj.tag = "DD";
+        classD = GameObject.FindGameObjectsWithTag("DClass");
+        transform.LookAt(MinDisObj.transform.position);
+        transform.position = MinDisObj.transform.position;
     }
 }
