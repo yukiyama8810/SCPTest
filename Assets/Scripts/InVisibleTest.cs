@@ -11,11 +11,12 @@ public class InVisibleTest : MonoBehaviour
     public Transform Playertf;
 
     private GameObject[] classD;
+    private bool LookEnemy = false;
     // Start is called before the first frame update
     void Start()
     {
         classD = GameObject.FindGameObjectsWithTag("DClass");
-        MoveForKill();
+        
     }
 
     private void OnWillRenderObject()
@@ -28,14 +29,30 @@ public class InVisibleTest : MonoBehaviour
             Debug.DrawRay(ray.origin, ray.direction * 10, Color.red, RayTime, true);
             if (Physics.Raycast(ray, out hit,Vector3.Distance(Playertf.position,transform.position)))
             {
-                
+                /*
+                 ・現状「視界内」か「障害物あり」の2つしか判定が無く「視界外」が存在しない。
+                 原案：OnBecameInvisibleを使用し視界外に出た瞬間問答無用でLookEnemyをfalseにする。
+                 問題：シーンカメラが邪魔、ゲームカメラ以外が存在してると機能しないので機能するやつを作ってみたい。
+                 第二案：このメソッド内でまずfalseに変えてから上記二つの路線をたどることによってそれ以外の場合＝視界外と見てfalseで抜けるように変更
+                 問題？：一時的とはいえ毎度強制falseに変わるのでそれによって問題が生じないかどうか。
+
+                あと下のifでの判定が雑なので綺麗にできればする
+                 */
                 if (hit.collider.tag == "Player")
                 {
                     Debug.Log("プレイヤーの視界内");
+                    if (!LookEnemy)
+                    {
+                        LookEnemy = true;
+                    }
                 }
                 else
                 {
                     Debug.Log("障害物あり");
+                    if (LookEnemy)
+                    {
+                        LookEnemy = false;
+                    }
                 }
             }
         }
@@ -44,9 +61,14 @@ public class InVisibleTest : MonoBehaviour
             //Debug.Log(Camera.current.name);
         }
     }
+
     void Update()
     {
-        CheckNPC();
+        if (!LookEnemy)
+        {
+            CheckNPC();
+        }
+
     }
 
     int a;

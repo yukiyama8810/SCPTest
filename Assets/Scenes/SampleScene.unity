@@ -1701,7 +1701,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: cddef304204801049934f904b73ab934, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.04
+      value: 2.95
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: cddef304204801049934f904b73ab934, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2703,6 +2703,7 @@ MonoBehaviour:
   AllPx: 0
   ClearPercentage: 0.492
   _alphaPercentage: 0.222
+  RayRange: 2
   _BrushSize: 17
 --- !u!4 &2024559993
 Transform:

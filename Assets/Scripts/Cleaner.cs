@@ -11,8 +11,11 @@ public class Cleaner : MonoBehaviour
 
     [SerializeField,Header("クリア割合"), Range(0f, 1.0f)] float ClearPercentage;
     [SerializeField,Header("一度にどれだけ透明にするか"),Range(0f,1.0f)] private float _alphaPercentage;
+    [SerializeField, Header("手の長さ(2くらいが丁度いい？)")] float RayRange;
     [Header("消しゴムサイズ(初期値15)")]public int _BrushSize;
     // TODO 上記二つは読み取り専用にしたい
+
+    
 
 
     public float _AlphaPercentage
@@ -32,7 +35,7 @@ public class Cleaner : MonoBehaviour
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
-            if (Physics.Raycast(ray, out hit))
+            if (Physics.Raycast(ray, out hit,RayRange))
             {
                 if (hit.collider.tag == "DirtFloor")
                 {
@@ -56,6 +59,6 @@ public class Cleaner : MonoBehaviour
     void Clear()
     {
         Debug.Log("CCCLLEARRRRRRRRRRRR");
-        //ToDo 現状掃除完了で即クリアなので何か考える
+        //ToDo 現状掃除完了で即クリアなので何か考える←先にドア実装して入場の段取り作らんと無理やろがい
     }
 }

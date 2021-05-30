@@ -16,12 +16,29 @@ public class NPCManager : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    //void Update()
+    //{
+    //    //Debug.LogError(gameObject.name + "‚ÌƒQ[ƒW" + BlinkGage + "‚ÅˆÃˆÅó‘Ô‚ª" + Inshadow);
+    //    if(BlinkGage > 0)
+    //    {
+    //        BlinkGage -= BlinkSpeed * Time.deltaTime;
+    //    }
+    //    else
+    //    {
+    //        if (!Inshadow)
+    //        {
+    //            Invoke("BlinkReset", BlinkRecast);
+    //            Inshadow = true;
+    //        }
+    //    }
+    //}
+
+    private void FixedUpdate()
     {
         //Debug.LogError(gameObject.name + "‚ÌƒQ[ƒW" + BlinkGage + "‚ÅˆÃˆÅó‘Ô‚ª" + Inshadow);
-        if(BlinkGage > 0)
+        if (BlinkGage > 0)
         {
-            BlinkGage -= BlinkSpeed * Time.deltaTime;
+            BlinkGage -= BlinkSpeed;
         }
         else
         {
@@ -32,6 +49,7 @@ public class NPCManager : MonoBehaviour
             }
         }
     }
+
     void BlinkReset()
     {
         BlinkGage = 100;
