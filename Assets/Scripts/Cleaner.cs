@@ -11,8 +11,8 @@ public class Cleaner : MonoBehaviour
 
     [SerializeField,Header("クリア割合"), Range(0f, 1.0f)] float ClearPercentage;
     [SerializeField,Header("一度にどれだけ透明にするか"),Range(0f,1.0f)] private float _alphaPercentage;
-    [SerializeField, Header("手の長さ(2くらいが丁度いい？)")] float RayRange;
-    [Header("消しゴムサイズ(初期値15)")]public int _BrushSize;
+    [SerializeField,Header("手の長さ(2くらいが丁度いい？)")] float RayRange;
+    [SerializeField,Header("消しゴムサイズ(初期値15)")]private int _brushSize;
     // TODO 上記二つは読み取り専用にしたい
 
     
@@ -22,6 +22,7 @@ public class Cleaner : MonoBehaviour
     {
         get { return _alphaPercentage; }
     }
+    public int _BrushSize { get { return _brushSize; } }
 
     void Start()
     {

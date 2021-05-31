@@ -36,6 +36,7 @@ public class InVisibleTest : MonoBehaviour
                  第二案：このメソッド内でまずfalseに変えてから上記二つの路線をたどることによってそれ以外の場合＝視界外と見てfalseで抜けるように変更
                  問題？：一時的とはいえ毎度強制falseに変わるのでそれによって問題が生じないかどうか。
 
+
                 あと下のifでの判定が雑なので綺麗にできればする
                  */
                 if (hit.collider.tag == "Player")

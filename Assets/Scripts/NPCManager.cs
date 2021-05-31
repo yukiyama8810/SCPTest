@@ -8,7 +8,12 @@ public class NPCManager : MonoBehaviour
     [SerializeField,Header("瞬きゲージリセットに要する時間")] float BlinkRecast;
     [System.NonSerialized]public bool Inshadow = false;
 
-    [SerializeField,Range(0f,100f)] float BlinkGage = 100;
+    [Range(0f,100f)]float BlinkGage = 100;
+
+    public float blinkGage
+    {
+        get { return BlinkGage; }
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -48,6 +53,7 @@ public class NPCManager : MonoBehaviour
                 Inshadow = true;
             }
         }
+        Debug.Log(blinkGage);
     }
 
     void BlinkReset()
