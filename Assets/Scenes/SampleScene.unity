@@ -555,11 +555,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5668366227678620260, guid: 647ea1263c69805488cbb7d0caedacd2, type: 3}
       propertyPath: BlinkSpeed
-      value: 23.5
+      value: 8.8
       objectReference: {fileID: 0}
     - target: {fileID: 5668366227678620260, guid: 647ea1263c69805488cbb7d0caedacd2, type: 3}
       propertyPath: BlinkRecast
-      value: 2.51
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 5668366227678620261, guid: 647ea1263c69805488cbb7d0caedacd2, type: 3}
       propertyPath: m_Name
@@ -923,6 +923,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 459925708}
     m_Modifications:
+    - target: {fileID: 1069271322588793708, guid: 647ea1263c69805488cbb7d0caedacd2, type: 3}
+      propertyPath: m_Value
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1661965135245423708, guid: 647ea1263c69805488cbb7d0caedacd2, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -980,7 +984,15 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5563831058358972144, guid: 647ea1263c69805488cbb7d0caedacd2, type: 3}
+      propertyPath: m_Type
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5563831058358972144, guid: 647ea1263c69805488cbb7d0caedacd2, type: 3}
       propertyPath: m_FillAmount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5563831058358972144, guid: 647ea1263c69805488cbb7d0caedacd2, type: 3}
+      propertyPath: m_PreserveAspect
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5668366227678620260, guid: 647ea1263c69805488cbb7d0caedacd2, type: 3}
@@ -2794,31 +2806,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3692659525460266609, guid: c76d947848ddd3d439ad63544f142ce6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.8
+      value: -3
       objectReference: {fileID: 0}
     - target: {fileID: 3692659525460266609, guid: c76d947848ddd3d439ad63544f142ce6, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.76
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3692659525460266609, guid: c76d947848ddd3d439ad63544f142ce6, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 3692659525460266609, guid: c76d947848ddd3d439ad63544f142ce6, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.99884206
       objectReference: {fileID: 0}
     - target: {fileID: 3692659525460266609, guid: c76d947848ddd3d439ad63544f142ce6, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 3692659525460266609, guid: c76d947848ddd3d439ad63544f142ce6, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0.04811107
       objectReference: {fileID: 0}
     - target: {fileID: 3692659525460266609, guid: c76d947848ddd3d439ad63544f142ce6, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 3692659525460266609, guid: c76d947848ddd3d439ad63544f142ce6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -2826,7 +2838,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3692659525460266609, guid: c76d947848ddd3d439ad63544f142ce6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: -5.515
       objectReference: {fileID: 0}
     - target: {fileID: 3692659525460266609, guid: c76d947848ddd3d439ad63544f142ce6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -2885,6 +2897,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 459925708}
     m_Modifications:
+    - target: {fileID: 1069271322588793708, guid: 647ea1263c69805488cbb7d0caedacd2, type: 3}
+      propertyPath: m_Value
+      value: 0.99
+      objectReference: {fileID: 0}
     - target: {fileID: 1661965135245423708, guid: 647ea1263c69805488cbb7d0caedacd2, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -2947,11 +2963,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5668366227678620260, guid: 647ea1263c69805488cbb7d0caedacd2, type: 3}
       propertyPath: BlinkSpeed
-      value: 20.9
+      value: 10.69
       objectReference: {fileID: 0}
     - target: {fileID: 5668366227678620260, guid: 647ea1263c69805488cbb7d0caedacd2, type: 3}
       propertyPath: BlinkRecast
-      value: 4.64
+      value: 0.85
       objectReference: {fileID: 0}
     - target: {fileID: 5668366227678620261, guid: 647ea1263c69805488cbb7d0caedacd2, type: 3}
       propertyPath: m_Name

@@ -27,6 +27,7 @@ public class InVisibleTest : MonoBehaviour
         {
             CheckNPC();
         }
+        Debug.Log(LookEnemy ? "М©ВƒВ№ВЈ" : "М©В¶ВƒВ№ВєБ[Вс");
 
         LookEnemy = false;
     }
@@ -78,12 +79,7 @@ public class InVisibleTest : MonoBehaviour
 
 
 
-    private void LateUpdate()
-    {
-        Debug.Log(LookEnemy ? "М©ВƒВ№ВЈ" : "М©В¶ВƒВ№ВєБ[Вс");
 
-        
-    }
 
     int a;
 
