@@ -11,14 +11,16 @@ public class BlinkGageUI : MonoBehaviour
     //ToDo なんかできないのとスマートにしたいなーこれ
     private void Start()
     {
-        NPC = transform.root.gameObject.GetComponent<NPCManager>();
+        //NPC = transform.parent.parent.GetComponent<NPCManager>();
+        NPC = transform.parent.GetComponentInParent<NPCManager>();
+        blink = GetComponent<Slider>();
     }
 
     private void LateUpdate()
     {
         transform.rotation = Camera.main.transform.rotation;
         
-        //blink.value = NPC.blinkGage / 100;
+        blink.value = NPC.blinkGage / 100;
 
     }
 }

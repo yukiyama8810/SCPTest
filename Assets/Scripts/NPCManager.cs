@@ -53,7 +53,6 @@ public class NPCManager : MonoBehaviour
                 Inshadow = true;
             }
         }
-        Debug.Log(blinkGage);
     }
 
     void BlinkReset()

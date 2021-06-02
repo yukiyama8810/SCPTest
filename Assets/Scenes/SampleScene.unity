@@ -2744,7 +2744,7 @@ MonoBehaviour:
   ClearPercentage: 0.492
   _alphaPercentage: 0.222
   RayRange: 2
-  _brushSize: 0
+  _brushSize: 15
 --- !u!4 &2024559993
 Transform:
   m_ObjectHideFlags: 0

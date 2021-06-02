@@ -10,19 +10,32 @@ public class InVisibleTest : MonoBehaviour
     public float RayTime;
     public Transform Playertf;
 
+
+
     private GameObject[] classD;
     private bool LookEnemy = false;
+    private bool OnWillRenderCheck;
     // Start is called before the first frame update
     void Start()
     {
         classD = GameObject.FindGameObjectsWithTag("DClass");
         
     }
+    void Update()
+    {
+        if (!LookEnemy)
+        {
+            CheckNPC();
+        }
+
+        LookEnemy = false;
+    }
 
     private void OnWillRenderObject()
     {
         if (Camera.current.name == "FirstPersonCharacter")
-        {
+        {            
+            
             var target = Playertf.position - transform.position;
             Ray ray = new Ray(transform.position, target);
             RaycastHit hit;
@@ -41,7 +54,7 @@ public class InVisibleTest : MonoBehaviour
                  */
                 if (hit.collider.tag == "Player")
                 {
-                    Debug.Log("プレイヤーの視界内");
+                    //Debug.Log("プレイヤーの視界内");
                     if (!LookEnemy)
                     {
                         LookEnemy = true;
@@ -49,7 +62,7 @@ public class InVisibleTest : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("障害物あり");
+                    //Debug.Log("障害物あり");
                     if (LookEnemy)
                     {
                         LookEnemy = false;
@@ -63,13 +76,13 @@ public class InVisibleTest : MonoBehaviour
         }
     }
 
-    void Update()
-    {
-        if (!LookEnemy)
-        {
-            CheckNPC();
-        }
 
+
+    private void LateUpdate()
+    {
+        Debug.Log(LookEnemy ? "見てます" : "見えてませーん");
+
+        
     }
 
     int a;
