@@ -6,7 +6,9 @@ public class NPCManager : MonoBehaviour
 {
     [SerializeField,Header("瞬きゲージの減少速度")] float BlinkSpeed;
     [SerializeField,Header("瞬きゲージリセットに要する時間")] float BlinkRecast;
+    public bool death;
     [System.NonSerialized]public bool Inshadow = false;
+    Animator anim;
 
     [Range(0f,100f)]float BlinkGage = 100;
 
@@ -17,12 +19,16 @@ public class NPCManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
-    //void Update()
-    //{
+    void Update()
+    {
+        if (anim.GetBool("Death") && !death)
+        {
+            death = true;
+        }
     //    //Debug.LogError(gameObject.name + "のゲージ" + BlinkGage + "で暗闇状態が" + Inshadow);
     //    if(BlinkGage > 0)
     //    {
@@ -36,28 +42,39 @@ public class NPCManager : MonoBehaviour
     //            Inshadow = true;
     //        }
     //    }
-    //}
+    }
 
     private void FixedUpdate()
     {
         //Debug.LogError(gameObject.name + "のゲージ" + BlinkGage + "で暗闇状態が" + Inshadow);
-        if (BlinkGage > 0)
+        if (!death)
         {
-            BlinkGage -= BlinkSpeed;
-        }
-        else
-        {
-            if (!Inshadow)
+            if (BlinkGage > 0)
             {
-                Invoke("BlinkReset", BlinkRecast);
-                Inshadow = true;
+                BlinkGage -= BlinkSpeed;
             }
+            else
+            {
+                if (!Inshadow)
+                {
+                    Invoke("BlinkReset", BlinkRecast);
+                    Inshadow = true;
+                }
+            }
+        }
+        else if(BlinkGage > 0)
+        {
+            BlinkGage = 0;
+            Inshadow = true;
         }
     }
 
     void BlinkReset()
     {
-        BlinkGage = 100;
-        Inshadow = false;
+        if (!death)
+        {
+            BlinkGage = 100;
+            Inshadow = false;
+        }
     }
 }
