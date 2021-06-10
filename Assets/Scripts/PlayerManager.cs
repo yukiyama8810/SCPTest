@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
 using UnityStandardAssets.Utility;
 using Random = UnityEngine.Random;
+using UnityEngine.UI;
 
 namespace UnityStandardAssets.Characters.FirstPerson
 {
@@ -27,6 +28,18 @@ namespace UnityStandardAssets.Characters.FirstPerson
         [SerializeField] private AudioClip[] m_FootstepSounds;    // an array of footstep sounds that will be randomly selected from.
         [SerializeField] private AudioClip m_JumpSound;           // the sound played when character leaves the ground.
         [SerializeField] private AudioClip m_LandSound;           // the sound played when character touches back on ground.
+
+        //ここから追加分
+        [SerializeField, Header("瞬きゲージの減少速度"),Range(0f,2.0f)] float p_BlinkSpeed;
+        [SerializeField, Header("瞬きゲージリセットに要する時間")] float p_BlinkRecast;
+        [SerializeField] Image black;
+        [SerializeField] Slider playerblink;
+        [System.NonSerialized] public bool p_Inshadow = false;
+        public bool p_death = false;
+
+        [Range(0f, 100f)] float p_BlinkGage = 100;
+
+        //ここまで追加分
 
         private Camera m_Camera;
         private bool m_Jump;
@@ -55,6 +68,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
             m_Jumping = false;
             m_AudioSource = GetComponent<AudioSource>();
             m_MouseLook.Init(transform, m_Camera.transform);
+
+            
         }
 
 
@@ -81,6 +96,20 @@ namespace UnityStandardAssets.Characters.FirstPerson
             }
 
             m_PreviouslyGrounded = m_CharacterController.isGrounded;
+
+            //ここから追加分
+            if (p_Inshadow && black.color.a < 0.5)
+            {
+                black.color = new Color(0,0,0,1); //どうせ黒なので値を直接指定
+            }
+            else if(!p_Inshadow && black.color.a > 0.5)
+            {
+                black.color = new Color(0, 0, 0, 0);
+            }
+            Debug.Log("ゲージ残量：" + p_BlinkGage + "　暗闇状態：" + p_Inshadow);
+            playerblink.value = p_BlinkGage/100;
+
+            //ここまで追加分
         }
 
 
@@ -131,6 +160,41 @@ namespace UnityStandardAssets.Characters.FirstPerson
             UpdateCameraPosition(speed);
 
             m_MouseLook.UpdateCursorLock();
+
+            //ここから追加分
+            if (!p_death)
+            {
+                if (p_BlinkGage > 0)
+                {
+                    p_BlinkGage -= p_BlinkSpeed;
+                }
+                else
+                {
+                    if (!p_Inshadow)
+                    {
+                        Invoke("p_BlinkReset", p_BlinkRecast);
+                        p_Inshadow = true;
+                    }
+                }
+            }
+            else if (p_BlinkGage > 0)
+            {
+                p_BlinkGage = 0;
+                p_Inshadow = true;
+            }
+            //ここまで追加分
+        }
+
+        /// <summary>
+        /// 追加分　NPCManagerと同じ
+        /// </summary>
+        void p_BlinkReset()
+        {
+            if (!p_death)
+            {
+                p_BlinkGage = 100;
+                p_Inshadow = false;
+            }
         }
 
 

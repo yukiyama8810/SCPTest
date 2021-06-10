@@ -9,6 +9,9 @@ public class InVisibleTest : MonoBehaviour
 {
     public float RayTime;
     public Transform Playertf;
+    [SerializeField] GameObject Player;
+    UnityStandardAssets.Characters.FirstPerson.PlayerManager playerManager;
+    
 
 
 
@@ -19,7 +22,7 @@ public class InVisibleTest : MonoBehaviour
     void Start()
     {
         classD = GameObject.FindGameObjectsWithTag("DClass");
-        
+        playerManager = Player.GetComponent<UnityStandardAssets.Characters.FirstPerson.PlayerManager>();
     }
     void Update()
     {
@@ -28,7 +31,6 @@ public class InVisibleTest : MonoBehaviour
             CheckNPC();
         }
         Debug.Log(LookEnemy ? "見てます" : "見えてませーん");
-
         LookEnemy = false;
     }
 
@@ -37,7 +39,7 @@ public class InVisibleTest : MonoBehaviour
         if (Camera.current.name == "FirstPersonCharacter")
         {            
             
-            var target = Playertf.position - transform.position;
+            var target = Player.transform.position - transform.position;
             Ray ray = new Ray(transform.position, target);
             RaycastHit hit;
             Debug.DrawRay(ray.origin, ray.direction * 10, Color.red, RayTime, true);
@@ -50,15 +52,19 @@ public class InVisibleTest : MonoBehaviour
                  第二案：このメソッド内でまずfalseに変えてから上記二つの路線をたどることによってそれ以外の場合＝視界外と見てfalseで抜けるように変更
                  問題？：一時的とはいえ毎度強制falseに変わるのでそれによって問題が生じないかどうか。
 
-
                 あと下のifでの判定が雑なので綺麗にできればする
+
+                上記二つひとまずクリア
                  */
                 if (hit.collider.tag == "Player")
                 {
                     //Debug.Log("プレイヤーの視界内");
                     if (!LookEnemy)
                     {
-                        LookEnemy = true;
+                        if (!playerManager.p_Inshadow)
+                        {
+                            LookEnemy = true;
+                        }
                     }
                 }
                 else
