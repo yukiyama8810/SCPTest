@@ -29,6 +29,16 @@ namespace UnityStandardAssets.Characters.FirstPerson
         [SerializeField] private AudioClip m_JumpSound;           // the sound played when character leaves the ground.
         [SerializeField] private AudioClip m_LandSound;           // the sound played when character touches back on ground.
 
+        //ここから追加分
+        [SerializeField, Header("瞬きゲージの減少速度")] float p_BlinkSpeed;
+        [SerializeField, Header("瞬きゲージリセットに要する時間")] float p_BlinkRecast;
+        [System.NonSerialized] public bool p_Inshadow = false;
+        public bool p_death = false;
+
+        [Range(0f, 100f)] float p_BlinkGage = 100;
+
+        //ここまで追加分
+
         private Camera m_Camera;
         private bool m_Jump;
         private float m_YRotation;
@@ -132,8 +142,42 @@ namespace UnityStandardAssets.Characters.FirstPerson
             UpdateCameraPosition(speed);
 
             m_MouseLook.UpdateCursorLock();
+
+            //ここから追加分
+            if (!p_death)
+            {
+                if (p_BlinkGage > 0)
+                {
+                    p_BlinkGage -= p_BlinkSpeed;
+                }
+                else
+                {
+                    if (!p_Inshadow)
+                    {
+                        Invoke("p_BlinkReset", p_BlinkRecast);
+                        p_Inshadow = true;
+                    }
+                }
+            }
+            else if (p_BlinkGage > 0)
+            {
+                p_BlinkGage = 0;
+                p_Inshadow = true;
+            }
+            //ここまで追加分
         }
 
+        /// <summary>
+        /// 追加分　NPCManagerと同じ
+        /// </summary>
+        void p_BlinkReset()
+        {
+            if (!p_death)
+            {
+                p_BlinkGage = 100;
+                p_Inshadow = false;
+            }
+        }
 
         private void PlayJumpSound()
         {

@@ -6,7 +6,7 @@ public class NPCManager : MonoBehaviour
 {
     [SerializeField,Header("瞬きゲージの減少速度")] float BlinkSpeed;
     [SerializeField,Header("瞬きゲージリセットに要する時間")] float BlinkRecast;
-    public bool death;
+    public bool death = false;
     [System.NonSerialized]public bool Inshadow = false;
     Animator anim;
 
