@@ -94,6 +94,10 @@ public class InVisibleTest : MonoBehaviour
     /// </summary>
     void CheckNPC()
     {
+        if(classD.Length == 0)
+        {
+            Debug.Log("PlayerIsŽ€–S");
+        }
         foreach(GameObject obj in classD)
         {
             if (obj.GetComponent<NPCManager>().Inshadow)

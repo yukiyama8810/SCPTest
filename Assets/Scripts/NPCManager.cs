@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class NPCManager : MonoBehaviour
 {
@@ -8,6 +9,8 @@ public class NPCManager : MonoBehaviour
     [SerializeField,Header("瞬きゲージリセットに要する時間")] float BlinkRecast;
     public bool death = false;
     [System.NonSerialized]public bool Inshadow = false;
+    GameObject Enemy;
+    NavMeshAgent agent;
     Animator anim;
 
     [Range(0f,100f)]float BlinkGage = 100;
@@ -20,6 +23,17 @@ public class NPCManager : MonoBehaviour
     void Start()
     {
         anim = GetComponent<Animator>();
+        Enemy = GameObject.FindGameObjectWithTag("173");
+        agent = GetComponent<NavMeshAgent>();
+        StartCoroutine("MoveFirst");
+        
+    }
+
+    IEnumerator MoveFirst()
+    {
+        yield return new WaitForSeconds(5f);
+
+        
     }
 
     // Update is called once per frame
@@ -29,6 +43,13 @@ public class NPCManager : MonoBehaviour
         {
             death = true;
         }
+
+        if (!death)
+        {
+            transform.LookAt(Enemy.transform.position);
+        }
+        
+
     //    //Debug.LogError(gameObject.name + "のゲージ" + BlinkGage + "で暗闇状態が" + Inshadow);
     //    if(BlinkGage > 0)
     //    {

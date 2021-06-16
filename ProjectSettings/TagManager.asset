@@ -7,6 +7,7 @@ TagManager:
   - DirtFloor
   - DClass
   - DD
+  - 173
   layers:
   - Default
   - TransparentFX
