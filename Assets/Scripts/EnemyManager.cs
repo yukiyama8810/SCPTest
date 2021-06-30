@@ -5,10 +5,11 @@ using UnityEngine;
 /// <summary>
 /// u‚«‘S”Ê‚ÌŠÇ—
 /// </summary>
-public class InVisibleTest : MonoBehaviour
+public class EnemyManager : MonoBehaviour
 {
     public float RayTime;
     public Transform Playertf;
+    public bool Startcheck;
     [SerializeField] GameObject Player;
     UnityStandardAssets.Characters.FirstPerson.PlayerManager playerManager;
     
@@ -36,7 +37,7 @@ public class InVisibleTest : MonoBehaviour
 
     private void OnWillRenderObject()
     {
-        if (Camera.current.name == "FirstPersonCharacter")
+        if (Camera.current.name == "FirstPersonCharacter" && Startcheck)
         {            
             
             var target = Player.transform.position - transform.position;

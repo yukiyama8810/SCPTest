@@ -13,6 +13,8 @@ public class NPCManager : MonoBehaviour
     NavMeshAgent agent;
     Animator anim;
 
+    [SerializeField] Transform targetpos;
+
     [Range(0f,100f)]float BlinkGage = 100;
 
     public float blinkGage
@@ -20,19 +22,25 @@ public class NPCManager : MonoBehaviour
         get { return BlinkGage; }
     }
     // Start is called before the first frame update
-    void Start()
+    IEnumerator Start()
     {
+        
         anim = GetComponent<Animator>();
         Enemy = GameObject.FindGameObjectWithTag("173");
         agent = GetComponent<NavMeshAgent>();
-        StartCoroutine("MoveFirst");
-        
+        enabled = false;
+        yield return StartCoroutine("MoveFirst");
+        enabled = true;
+
     }
 
     IEnumerator MoveFirst()
     {
+        agent.destination = targetpos.position;
+
         yield return new WaitForSeconds(5f);
 
+        Debug.Log("updateŠJŽn");
         
     }
 
@@ -43,7 +51,7 @@ public class NPCManager : MonoBehaviour
         {
             death = true;
         }
-
+        Debug.Log("Update");
         if (!death)
         {
             transform.LookAt(Enemy.transform.position);
