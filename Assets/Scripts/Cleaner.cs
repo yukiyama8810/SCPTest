@@ -53,13 +53,7 @@ public class Cleaner : MonoBehaviour
         AllCheckPx += x;
         if(AllCheckPx >= AllPx * ClearPercentage)
         {
-            Clear();
+            GameManagerWithDoor.iiinstance.AllClear = true;
         }
-    }
-
-    void Clear()
-    {
-        Debug.Log("CCCLLEARRRRRRRRRRRR");
-        //ToDo 現状掃除完了で即クリアなので何か考える←先にドア実装して入場の段取り作らんと無理やろがい
     }
 }

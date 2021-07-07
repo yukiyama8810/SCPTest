@@ -8,6 +8,7 @@ public class NPCManager : MonoBehaviour
     [SerializeField,Header("瞬きゲージの減少速度")] float BlinkSpeed;
     [SerializeField,Header("瞬きゲージリセットに要する時間")] float BlinkRecast;
     public bool death = false;
+    public bool MoveComplete;
     [System.NonSerialized]public bool Inshadow = false;
     GameObject Enemy;
     NavMeshAgent agent;
@@ -24,24 +25,33 @@ public class NPCManager : MonoBehaviour
     // Start is called before the first frame update
     IEnumerator Start()
     {
-        
         anim = GetComponent<Animator>();
         Enemy = GameObject.FindGameObjectWithTag("173");
         agent = GetComponent<NavMeshAgent>();
-        enabled = false;
-        yield return StartCoroutine("MoveFirst");
+        enabled = false; //Update,FixedUpdate停止の為にスクリプトコンポーネントを無効化
+        yield return new WaitUntil(() => GameManagerWithDoor.iiinstance.DoorOpen);
+        yield return StartCoroutine(MoveFirst());
         enabled = true;
 
     }
 
+
+
     IEnumerator MoveFirst()
     {
         agent.destination = targetpos.position;
-
-        yield return new WaitForSeconds(5f);
-
-        Debug.Log("update開始");
-        
+        anim.SetBool("Walk", true);
+        while (true)
+        {
+            if(Vector3.Distance(transform.position,targetpos.position) < 0.62f)
+            {
+                break;
+                Debug.Log("MoveComplete" + this.name);
+            }
+            yield return null;
+        }
+        anim.SetBool("Walk", false);
+        MoveComplete = true;
     }
 
     // Update is called once per frame
@@ -51,12 +61,10 @@ public class NPCManager : MonoBehaviour
         {
             death = true;
         }
-        Debug.Log("Update");
         if (!death)
         {
             transform.LookAt(Enemy.transform.position);
         }
-        
 
     //    //Debug.LogError(gameObject.name + "のゲージ" + BlinkGage + "で暗闇状態が" + Inshadow);
     //    if(BlinkGage > 0)

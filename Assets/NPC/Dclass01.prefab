@@ -2219,7 +2219,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 7bfc42900152ccf44ad320d613c2ba4d, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
@@ -2240,6 +2240,8 @@ MonoBehaviour:
   BlinkSpeed: 10.16
   BlinkRecast: 1.32
   death: 0
+  MoveComplete: 0
+  targetpos: {fileID: 0}
 --- !u!195 &970133804108701922
 NavMeshAgent:
   m_ObjectHideFlags: 0

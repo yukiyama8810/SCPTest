@@ -9,7 +9,6 @@ public class EnemyManager : MonoBehaviour
 {
     public float RayTime;
     public Transform Playertf;
-    public bool Startcheck;
     [SerializeField] GameObject Player;
     UnityStandardAssets.Characters.FirstPerson.PlayerManager playerManager;
     
@@ -25,19 +24,26 @@ public class EnemyManager : MonoBehaviour
         classD = GameObject.FindGameObjectsWithTag("DClass");
         playerManager = Player.GetComponent<UnityStandardAssets.Characters.FirstPerson.PlayerManager>();
     }
+
     void Update()
     {
-        if (!LookEnemy)
+        GameManagerWithDoor.iiinstance.DebugLog.text = LookEnemy ? "М©ВƒВ№ВЈ" : "М©В¶ВƒВ№ВєБ[Вс";
+        if (GameManagerWithDoor.iiinstance.GameStart)
         {
-            CheckNPC();
+            if (!LookEnemy)
+            {
+                CheckNPC();
+            }
+            //Debug.Log(LookEnemy ? "М©ВƒВ№ВЈ" : "М©В¶ВƒВ№ВєБ[Вс");
+            LookEnemy = false;
         }
-        Debug.Log(LookEnemy ? "М©ВƒВ№ВЈ" : "М©В¶ВƒВ№ВєБ[Вс");
-        LookEnemy = false;
+
+
     }
 
     private void OnWillRenderObject()
     {
-        if (Camera.current.name == "FirstPersonCharacter" && Startcheck)
+        if (Camera.current.name == "FirstPersonCharacter")
         {            
             
             var target = Player.transform.position - transform.position;

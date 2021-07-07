@@ -106,7 +106,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             {
                 black.color = new Color(0, 0, 0, 0);
             }
-            Debug.Log("ゲージ残量：" + p_BlinkGage + "　暗闇状態：" + p_Inshadow);
+            //Debug.Log("ゲージ残量：" + p_BlinkGage + "　暗闇状態：" + p_Inshadow);
             playerblink.value = p_BlinkGage/100;
 
             //ここまで追加分
@@ -197,6 +197,23 @@ namespace UnityStandardAssets.Characters.FirstPerson
             }
         }
 
+        /// <summary>
+        /// 追加分その2　スタート時の入室判定用
+        /// </summary>
+        /// <param name="other"></param>
+        private void OnTriggerStay(Collider other)
+        {
+            if(other.name == "Sensor")
+            {
+                if (GameManagerWithDoor.iiinstance.GameStart)
+                {
+                    GameManagerWithDoor.iiinstance.inPlayer = true;
+                    Debug.LogError("入室判定" + other.name);
+                    Destroy(other);
+                }
+
+            }
+        }
 
         private void PlayJumpSound()
         {
