@@ -10,6 +10,7 @@ public class GameManagerWithDoor : MonoBehaviour
 
     [SerializeField] GameObject SCP173;
     [SerializeField] NPCManager[] NPC;
+    public bool PushStatus;
     public bool GameStart;
     public bool DoorOpen;
     public bool inPlayer;
@@ -38,17 +39,19 @@ public class GameManagerWithDoor : MonoBehaviour
         DebugLog = transform.Find("Canvas/DebugLog").gameObject.GetComponent<Text>();
         Appearance = transform.Find("Appearance").gameObject;
         Barrier = transform.Find("Barrier").gameObject;
-        yield return new WaitForSeconds(2f);
+        yield return new WaitUntil(() => PushStatus);
         Appearance.transform.DOLocalMoveY(2.8f, 1.5f).SetEase(Ease.Linear).OnComplete(() => 
         {
             DoorOpen = true;
             Barrier.SetActive(false);
         });
+        Debug.LogError("ドアおーっぷん");
     }
 
     // Update is called once per frame
     void Update()
     {
+        //NPC全員所定の位置に着いてるか確認、OKならスタートをture
         if (!GameStart)//ToDo 中身Forの方がいい気もするので確認
         {
             int x = 0;
@@ -68,8 +71,11 @@ public class GameManagerWithDoor : MonoBehaviour
                 }
             }
         }
+
+        //ドアが開いてかつゲームスタートでかつプレイヤーが中に居るときに閉じていざホントにスタート
         if(DoorOpen && GameStart && inPlayer)
         {
+            PushStatus = false;
             Barrier.SetActive(true);
             Appearance.transform.DOLocalMoveY(-0.1f, 1.5f).SetEase(Ease.Linear);
         }
@@ -88,8 +94,24 @@ public class GameManagerWithDoor : MonoBehaviour
     {
         Appearance.transform.DOLocalMoveY(2.8f, 1.5f).SetEase(Ease.Linear).OnComplete(() =>
         {
+            Debug.LogError("ドアオープンクリア用");
             Barrier.SetActive(false);
         });
-        yield return null;
+        yield return new WaitUntil(() => PushStatus);
+        Barrier.SetActive(true);
+        //中のNPCにグッバイする流れを作る
+        GameStart = false;
+        Appearance.transform.DOLocalMoveY(-0.1f, 1.5f).SetEase(Ease.Linear).OnComplete(() =>
+        {
+            StartCoroutine(Finish());
+        });
+    }
+
+    IEnumerator Finish()
+    {
+        //yield return NPCの帰還チェック
+        yield return new WaitForSeconds(2f);
+        Time.timeScale = 0f;
+        //クリア画面
     }
 }

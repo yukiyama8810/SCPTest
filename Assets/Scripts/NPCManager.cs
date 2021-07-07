@@ -15,6 +15,7 @@ public class NPCManager : MonoBehaviour
     Animator anim;
 
     [SerializeField] Transform targetpos;
+    Vector3 Startpos;
 
     [Range(0f,100f)]float BlinkGage = 100;
 
@@ -25,6 +26,7 @@ public class NPCManager : MonoBehaviour
     // Start is called before the first frame update
     IEnumerator Start()
     {
+        Startpos = transform.position;
         anim = GetComponent<Animator>();
         Enemy = GameObject.FindGameObjectWithTag("173");
         agent = GetComponent<NavMeshAgent>();
@@ -64,6 +66,16 @@ public class NPCManager : MonoBehaviour
         if (!death)
         {
             transform.LookAt(Enemy.transform.position);
+            if (GameManagerWithDoor.iiinstance.AllClear && !anim.GetBool("Walk"))
+            {
+                agent.destination = Startpos;
+                anim.SetBool("Walk", true);
+            }
+            if(Vector3.Distance(transform.position,Startpos) < 0.1f)
+            {
+                anim.SetBool("Walk", false);
+                enabled = false;
+            }
         }
 
     //    //Debug.LogError(gameObject.name + "‚ÌƒQ[ƒW" + BlinkGage + "‚ÅˆÃˆÅó‘Ô‚ª" + Inshadow);

@@ -42,9 +42,15 @@ public class Cleaner : MonoBehaviour
                 {
                     hit.collider.gameObject.GetComponent<CleanFloor>().ChangeTexture(hit.textureCoord);
                 }
+                else if(hit.collider.tag == "Push")
+                {
+                    if (!GameManagerWithDoor.iiinstance.PushStatus)
+                    {
+                        //押されたアニメーションを追加
+                        GameManagerWithDoor.iiinstance.PushStatus = true;
+                    }
+                }
             }
-
-
         }
     }
 
