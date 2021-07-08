@@ -14,11 +14,11 @@ public class GameManagerWithDoor : MonoBehaviour
     public bool GameStart;
     public bool DoorOpen;
     public bool inPlayer;
-    public bool AllClear;
     public Text DebugLog;
 
     GameObject Appearance;
     GameObject Barrier;
+    Canvas Gameover;
     
 
     private void Awake()
@@ -36,6 +36,7 @@ public class GameManagerWithDoor : MonoBehaviour
 
     IEnumerator Start()
     {
+        Gameover = transform.Find("GameOver").gameObject.GetComponent<Canvas>();
         DebugLog = transform.Find("Canvas/DebugLog").gameObject.GetComponent<Text>();
         Appearance = transform.Find("Appearance").gameObject;
         Barrier = transform.Find("Barrier").gameObject;
@@ -46,6 +47,12 @@ public class GameManagerWithDoor : MonoBehaviour
             Barrier.SetActive(false);
         });
         Debug.LogError("ドアおーっぷん");
+        //ドアが開いてかつゲームスタートでかつプレイヤーが中に居るときに閉じていざホントにスタート
+        yield return new WaitUntil(() => DoorOpen && GameStart && inPlayer);
+        PushStatus = false;
+        DoorOpen = false;
+        Barrier.SetActive(true);
+        Appearance.transform.DOLocalMoveY(-0.1f, 1.5f).SetEase(Ease.Linear);
     }
 
     // Update is called once per frame
@@ -71,33 +78,39 @@ public class GameManagerWithDoor : MonoBehaviour
                 }
             }
         }
+    }
 
-        //ドアが開いてかつゲームスタートでかつプレイヤーが中に居るときに閉じていざホントにスタート
-        if(DoorOpen && GameStart && inPlayer)
-        {
-            PushStatus = false;
-            Barrier.SetActive(true);
-            Appearance.transform.DOLocalMoveY(-0.1f, 1.5f).SetEase(Ease.Linear);
-        }
-
-        if (AllClear)
-        {
-            StartCoroutine(Clear());
-        }
+    public IEnumerator GameOver()
+    {
+        //やられた感じのカメラワークか何か追加
+        Gameover.gameObject.SetActive(true);
+        Time.timeScale = 0;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+        yield return null;
     }
 
     /// <summary>
     /// 掃除完了後のドアオープンからクリア準備まで
     /// </summary>
     /// <returns></returns>
-    IEnumerator Clear()
+    public IEnumerator Clear()
     {
         Appearance.transform.DOLocalMoveY(2.8f, 1.5f).SetEase(Ease.Linear).OnComplete(() =>
         {
             Debug.LogError("ドアオープンクリア用");
+            DoorOpen = true;
             Barrier.SetActive(false);
+            foreach(NPCManager npc in NPC)
+            {
+                if (!npc.death)
+                {
+                    StartCoroutine(npc.Escape());
+                }
+            }
         });
         yield return new WaitUntil(() => PushStatus);
+        Debug.LogError("PushStatus" + PushStatus);
         Barrier.SetActive(true);
         //中のNPCにグッバイする流れを作る
         GameStart = false;

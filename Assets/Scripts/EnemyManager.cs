@@ -103,7 +103,7 @@ public class EnemyManager : MonoBehaviour
     {
         if(classD.Length == 0)
         {
-            Debug.Log("PlayerIsŽ€–S");
+            StartCoroutine(GameManagerWithDoor.iiinstance.GameOver());
         }
         foreach(GameObject obj in classD)
         {

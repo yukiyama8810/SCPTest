@@ -56,6 +56,14 @@ public class NPCManager : MonoBehaviour
         MoveComplete = true;
     }
 
+    public IEnumerator Escape()
+    {
+        agent.destination = Startpos;
+        anim.SetBool("Walk", true);
+        yield return new WaitUntil(() => Vector3.Distance(transform.position,Startpos) < 0.1f);
+        anim.SetBool("Walk", false);
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -63,19 +71,14 @@ public class NPCManager : MonoBehaviour
         {
             death = true;
         }
+
         if (!death)
         {
             transform.LookAt(Enemy.transform.position);
-            if (GameManagerWithDoor.iiinstance.AllClear && !anim.GetBool("Walk"))
-            {
-                agent.destination = Startpos;
-                anim.SetBool("Walk", true);
-            }
-            if(Vector3.Distance(transform.position,Startpos) < 0.1f)
-            {
-                anim.SetBool("Walk", false);
-                enabled = false;
-            }
+        }
+        else if (anim.GetBool("Walk"))
+        {
+            agent.ResetPath();
         }
 
     //    //Debug.LogError(gameObject.name + "‚ÌƒQ[ƒW" + BlinkGage + "‚ÅˆÃˆÅó‘Ô‚ª" + Inshadow);

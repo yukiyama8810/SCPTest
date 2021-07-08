@@ -6,6 +6,7 @@ public class Cleaner : MonoBehaviour
 {
 
     int AllCheckPx;//現状の消えたピクセル数
+    bool AllClear;
 
     [HideInInspector] public int AllPx;//ステージ上全てのDirtオブジェクトのピクセル合計数
 
@@ -56,10 +57,14 @@ public class Cleaner : MonoBehaviour
 
     public void CheckCount(int x)
     {
-        AllCheckPx += x;
-        if(AllCheckPx >= AllPx * ClearPercentage)
+        if (!AllClear)
         {
-            GameManagerWithDoor.iiinstance.AllClear = true;
+            AllCheckPx += x;
+            if (AllCheckPx >= AllPx * ClearPercentage)
+            {
+                StartCoroutine(GameManagerWithDoor.iiinstance.Clear());
+                AllClear = true;
+            }
         }
     }
 }
