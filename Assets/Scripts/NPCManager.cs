@@ -34,7 +34,6 @@ public class NPCManager : MonoBehaviour
         yield return new WaitUntil(() => GameManagerWithDoor.iiinstance.DoorOpen);
         yield return StartCoroutine(MoveFirst());
         enabled = true;
-
     }
 
 
