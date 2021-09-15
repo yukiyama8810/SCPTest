@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManagerWithDoor : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class GameManagerWithDoor : MonoBehaviour
     public bool GameStart;
     public bool DoorOpen;
     public bool inPlayer;
+    public bool StatusClear;
     public Text DebugLog;
 
     GameObject Appearance;
@@ -26,12 +28,13 @@ public class GameManagerWithDoor : MonoBehaviour
         if(iiinstance == null)
         {
             iiinstance = this;
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
         }
         else
         {
             Destroy(gameObject);
         }
+        Time.timeScale = 1f;
     }
 
     IEnumerator Start()
@@ -59,7 +62,7 @@ public class GameManagerWithDoor : MonoBehaviour
     void Update()
     {
         //NPC全員所定の位置に着いてるか確認、OKならスタートをture
-        if (!GameStart)//ToDo 中身Forの方がいい気もするので確認
+        if (!GameStart && !StatusClear)//ToDo 中身Forの方がいい気もするので確認
         {
             int x = 0;
             foreach (NPCManager npc in NPC)
@@ -78,6 +81,8 @@ public class GameManagerWithDoor : MonoBehaviour
                 }
             }
         }
+
+        Debug.LogError("タイムスケール"+Time.timeScale);
     }
 
     public IEnumerator GameOver()
@@ -112,12 +117,18 @@ public class GameManagerWithDoor : MonoBehaviour
         yield return new WaitUntil(() => PushStatus);
         Debug.LogError("PushStatus" + PushStatus);
         Barrier.SetActive(true);
+        StatusClear = true;
         //中のNPCにグッバイする流れを作る
         GameStart = false;
         Appearance.transform.DOLocalMoveY(-0.1f, 1.5f).SetEase(Ease.Linear).OnComplete(() =>
         {
             StartCoroutine(Finish());
         });
+        yield return new WaitForSeconds(0.5f);
+        foreach(NPCManager npc in NPC)
+        {
+            npc.agent.ResetPath();
+        }
     }
 
     IEnumerator Finish()
@@ -126,5 +137,23 @@ public class GameManagerWithDoor : MonoBehaviour
         yield return new WaitForSeconds(2f);
         Time.timeScale = 0f;
         //クリア画面
+        Gameover.gameObject.SetActive(true);
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+    }
+
+    public void GameoverButton(string name)
+    {
+        switch (name)
+        {
+            case "Restart":
+                SceneManager.LoadScene("SampleScene");
+                break;
+
+            case "Menu":
+                SceneManager.LoadScene("Opening");
+                break;
+                
+        }
     }
 }

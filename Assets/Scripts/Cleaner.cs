@@ -27,7 +27,10 @@ public class Cleaner : MonoBehaviour
 
     void Start()
     {
-        
+        ClearPercentage = DateManager.instance.ClearPercentage;
+        _alphaPercentage = DateManager.instance.AlphaPercentage;
+        RayRange = DateManager.instance.RayRange;
+        _brushSize = (int)DateManager.instance.BrushSize;
     }
 
     // Update is called once per frame

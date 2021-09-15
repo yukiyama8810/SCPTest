@@ -11,7 +11,7 @@ public class NPCManager : MonoBehaviour
     public bool MoveComplete;
     [System.NonSerialized]public bool Inshadow = false;
     GameObject Enemy;
-    NavMeshAgent agent;
+    public NavMeshAgent agent;
     Animator anim;
 
     [SerializeField] Transform targetpos;
